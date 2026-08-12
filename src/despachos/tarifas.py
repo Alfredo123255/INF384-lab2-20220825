@@ -44,7 +44,7 @@ def factor_zona(zona: str) -> float:
 def costo_peso(peso_kg: float) -> float:
     if peso_kg <= 0:
         return 0.0
-    return peso_kg * COSTO_POR_KILO
+    return round(peso_kg * COSTO_POR_KILO, 2)
 
 
 def aplica_envio_gratis(envio: Envio) -> bool:

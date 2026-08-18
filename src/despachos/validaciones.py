@@ -44,7 +44,7 @@ def validar_peso(peso_kg: float) -> float:
 
 
 def normalizar_cliente(nombre: str) -> str:
-    limpio = (nombre or "").strip()
+    limpio = " ".join((nombre or "").split())
     if len(limpio) < 3:
         raise ErrorValidacion("el nombre del cliente es demasiado corto")
     return limpio.title()

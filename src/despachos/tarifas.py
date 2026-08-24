@@ -69,3 +69,15 @@ def calcular(envio: Envio) -> float:
         total = total * 1.5
 
     return round(total, 2)
+
+
+def desglose(envio: Envio) -> dict[str, float]:
+    base = TARIFA_BASE
+    peso = costo_peso(envio.peso_kg)
+    factor = factor_zona(envio.zona)
+    return {
+        "base": base,
+        "peso": peso,
+        "factor_zona": factor,
+        "total": calcular(envio),
+    }

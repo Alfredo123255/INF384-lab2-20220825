@@ -1,0 +1,62 @@
+name: pipeline
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+
+  validar:
+    name: Validar
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Ejecutar pruebas
+        run: pytest --cov=src --cov-report=xml
+
+      - name: Analisis de calidad
+        uses: SonarSource/sonarqube-scan-action@v8
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
+
+  publicar:
+    name: Publicar artefacto
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el codigo
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Construir el paquete
+        run: python -m build
+
+      - name: Publicar el paquete
+        uses: actions/upload-artifact@v4
+        with:
+          name: paquete
+          path: dist/
+          overwrite: true

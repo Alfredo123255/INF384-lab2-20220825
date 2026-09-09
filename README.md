@@ -40,9 +40,13 @@ Se puede ejecutar manualmente desde la pestana **Actions**, con **Run workflow**
 
 | Elemento | Donde se configura |
 |---|---|
-| `SONAR_TOKEN` | Settings -> Secrets and variables -> Actions |
-| `sonar.organization` | `sonar-project.properties` |
-| `sonar.projectKey` | `sonar-project.properties` |
+| `SONAR_TOKEN` | Settings -> Secrets and variables -> Actions -> **Secrets** |
+| `SONAR_ORGANIZATION` | Settings -> Secrets and variables -> Actions -> **Variables** |
+| Project key | Constante `INF384-lab2` en `.github/workflows/pipeline.yml` |
+
+El proyecto en SonarQube Cloud debe crearse con la project key exacta
+`INF384-lab2`. No hay que editar ningun archivo del repositorio para
+configurar el analisis.
 
 ## Version
 

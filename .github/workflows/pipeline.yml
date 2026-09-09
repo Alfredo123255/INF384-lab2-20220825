@@ -33,6 +33,10 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
+        with:
+          args: >
+            -Dsonar.organization=${{ vars.SONAR_ORG }}
+            -Dsonar.projectKey=INF384-lab2
 
   publicar:
     name: Publicar artefacto

@@ -5,9 +5,9 @@ sin modificar ningun archivo del repositorio. Registrar aqui los resultados.
 
 | Ejecucion | Duracion | URL |
 |---|---|---|
-| 1 | | |
-| 2 | | |
-| 3 | | |
+| 1 | 1| 58s|
+| 2 | 2| 64s|
+| 3 | 3| 149s|
 
 ## Declaracion de uso de IA generativa
 

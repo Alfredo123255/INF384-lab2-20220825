@@ -81,3 +81,34 @@ def desglose(envio: Envio) -> dict[str, float]:
         "factor_zona": factor,
         "total": calcular(envio),
     }
+
+def calcular_prioridad(envio: Envio) -> str:
+    """Determina la prioridad de despacho segun el riesgo del envio."""
+    riesgo = 0
+
+    if envio.urgente:
+        riesgo += 3
+
+    if envio.zona in ZONAS_ALEJADAS:
+        riesgo += 2
+    elif envio.zona == "lima_metropolitana":
+        riesgo += 0
+    else:
+        riesgo += 1
+
+    if envio.peso_kg > 40:
+        riesgo += 2
+    elif envio.peso_kg > 15:
+        riesgo += 1
+
+    if envio.valor_declarado >= UMBRAL_ENVIO_GRATIS:
+        riesgo += 1
+
+    if riesgo >= 6:
+        return "critica"
+    elif riesgo >= 3:
+        return "alta"
+    elif riesgo >= 1:
+        return "media"
+    else:
+        return "baja"

@@ -32,3 +32,23 @@ de la ejecución
 
 1.5 La linea base era con un tiempo maximo de 149 segundos y un tiempo promedio de 90 segundos entre las 3 ejecuciones, 
 la metra de la intervención es logar una ejecución secuencial del pipeline en 70 segundos
+
+4.1 El valor del proxy actual: 1m con 26 segundos, fue como el doble de lo propuesto debido a que ahora es secuencial,
+por lo que demora mas 
+
+4.2 ommits que la sustentan (desde el tag v1.2.0 = commit b7e44ce, punto donde pyproject.toml decía 1.2.0):
+
+562e631 - feat(tarifas): agregar desglose de la tarifa calculada
+Agrega la función nueva desglose() en tarifas.py, puramente aditiva, no toca la firma de calcular(). Impacto: MINOR.
+b481aa6 - fix(tarifas): redondear el costo por peso a dos decimales
+Corrige comportamiento interno de costo_peso(). Impacto: PATCH.
+6ba3804 - fix(validaciones): colapsar espacios repetidos en el nombre del cliente
+Corrige comportamiento interno de normalizar_cliente(). Impacto: PATCH.
+
+4.3 configurar una regla de protección de rama sobre main (Settings → Branches → Add branch protection rule, o su versión moderna "Rulesets"), activando "Require status checks to pass before merging" y seleccionando ahí los checks concretos (pipeline / Validar, SonarCloud Code Analysis) como obligatorios. Con eso, el botón de merge queda deshabilitado por GitHub mismo mientras esos checks no estén en verde — recién ahí el Quality Gate deja de ser una alerta y pasa a ser un bloqueo real.
+
+4.4 Se utilizó Claude (Anthropic) como asistente durante todo el desarrollo de este trabajo, con los siguientes propósitos:
+
+Identificar y explicar los 4 defectos del pipeline original (dependencia faltante entre jobs, ausencia de verificación del Quality Gate, versiones de actions desactualizadas, falta de restricción de rama para publicar), verificando cada uno con evidencia real extraída del repositorio y de las ejecuciones en GitHub Actions (no solo teóricamente).
+Redactar la corrección completa de .github/workflows/pipeline.yml aplicando las 4 condiciones adicionales (instalación desde lock file, caché de dependencias, corte por Quality Gate, nombre de artefacto con versión).
+Determinar la versión a declarar (1.3.0), a partir de un análisis real del historial de commits del repositorio desde el punto correspondiente al tag v1.2.0, clasificando cada commit según Conventional Commits para justificar un incremento MINOR.
